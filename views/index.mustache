@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+  <head>
+    {{! <link rel="stylesheet" href="/fonts.css" type="text/css" media="screen" charset="utf-8" />
+    <link rel="stylesheet" href="/app.css" type="text/css" media="screen" charset="utf-8" />
+    <link rel="shortcut icon" href="/favicon.png" type="image/x-icon"> }}
+  </head>
+  <body>
+    <div>
+      <h3>Create New Room</h3>
+      <span style='font-size:0.5em; color:red' id='result'></span>
+      <form style='margin-top:20px' id='form' name="myForm">
+            Name: <input type="text" name="name">
+            Room Name: <input type="text" name="rname">
+        <input type="submit" value="Submit">
+      </form>
+    </div>
+    <script>
+      config = {};
+      config.io = "{{{io}}}";
+    </script>
+    <script src="/main.js"></script>
+  </body>
+</html>
