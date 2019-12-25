@@ -1,6 +1,7 @@
 var browserify = require('browserify-middleware');
 var mustache = require('mustache-express');
 var express = require('express');
+
 var app = express();
 
 var port = process.env.WEPLAY_PORT || 3000;
@@ -30,6 +31,14 @@ app.get('/', function(req, res, next){
     }
       res.render('index.mustache');
 });
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
 app.get('/room', function(req,res,next){
     if ('development' == process.env.NODE_ENV) {
         app.use('/room.js', browserify('./client/app2.js'));
@@ -37,6 +46,7 @@ app.get('/room', function(req,res,next){
     res.render('room.mustache', {
         io: url,
         room: req.query.room,
-        name: req.query.name
+        name: req.query.name,
+        color:getRandomColor()
     })
 });

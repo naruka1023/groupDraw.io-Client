@@ -1,0 +1,17 @@
+/* .wrapper > #canvasContainer{} */
+.wrapper{
+    display: flex;
+    left: 50%;
+    position: relative;
+    width: fit-content;
+    justify-content: center;
+}
+@media (max-width:768px){
+    .smth{
+        margin-top:460px
+    }
+}
+.listItems{
+    display:inline-block;
+    justify-content:space-between
+}

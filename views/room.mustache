@@ -2,6 +2,10 @@
 <html>
   <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="roomStyle.css">
   </head>
   <body>
     <div style='text-align:center'>
@@ -10,13 +14,26 @@
             <div class='joined' style=' display:none'></div>
         </div>
         <div class='loader' style='margin:auto'><i class="fa fa-spinner fa-spin" style="font-size:24px"></i></div>
-        <div style='display:none; margin:auto; width:fit-content; height:fit-content; border:1px solid black; margin-top:1em;' id='canvasContainer'></div>
+        <div class="col-md-4 col-sm-12 wrapper" >
+          <div class = "canvasChild" style='display:none; position:absolute; width:fit-content; height:fit-content; border:1px solid black; margin-top:1em;' id='canvasContainer'></div>
+          <div class = "canvasChild" style='opacity:0.5; display:none; position:absolute; width:fit-content; height:fit-content; border:1px solid black; margin-top:1em;' id='canvasContainer2'></div>
+        </div>
+
+        <div class='smth col-md-4 col-sm-12'>
+          <div class='listWrapper' style='display:none'>
+            <h3>List of Users</h3>
+            <div class='listOfUsers'>
+            </div>
+          </div>
+        </div>
+        <div class='col-md-4'></div>
     </div>
     <script>
       config = {};
       config.io = "{{{io}}}";
       config.name = "{{{name}}}";
       config.room = "{{{room}}}";
+      config.color = "{{{color}}}";
     </script>
     <script src="/room.js"></script>
   </body>

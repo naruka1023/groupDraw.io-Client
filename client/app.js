@@ -10,8 +10,8 @@ function validateForm(){
     let x = document.forms["myForm"]["rname"].value;
     let y = document.forms["myForm"]["name"].value;
     if(x == "" || y == ""){
-        $('#result').html('Please the given form')
+        $('#result').html('Please fill out the given form')
     }else{
-        window.location.href = window.location.href + `room?room=${x}&name=${y}`;
+        window.location.href += `room?room=${x}&name=${y}`;
     }
 }
