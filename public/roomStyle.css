@@ -1,15 +1,22 @@
 /* .wrapper > #canvasContainer{} */
 .wrapper{
-    display: flex;
-    left: 50%;
-    position: relative;
-    width: fit-content;
-    justify-content: center;
+    display:none
 }
 @media (max-width:768px){
     .smth{
         margin-top:460px
     }
+}
+#canvasContainer, #canvasContainer2{
+    /* display:none;  */
+    position:absolute; 
+    width:fit-content;
+    height:fit-content; 
+    border:1px solid black; 
+    margin-top:1em;
+}
+#canvasContainer2{
+    opacity:0.5; 
 }
 .listItems{
     display:inline-block;

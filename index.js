@@ -39,6 +39,13 @@ function getRandomColor() {
     }
     return color;
   }
+app.get('/records', function(req, res, next){
+  redis.lrange(`roomRecords:${req.query.room}`, 0, -1, function(err, result){
+    res.send(result.map((r)=>{
+      return JSON.parse(r.toString())
+    }))
+  })
+})
 app.get('/room', function(req,res,next){
     if ('development' == process.env.NODE_ENV) {
         app.use('/room.js', browserify('./client/app2.js'));

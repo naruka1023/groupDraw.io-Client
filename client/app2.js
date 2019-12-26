@@ -1,8 +1,10 @@
 var p5 = require('p5');
 var $ = require('jquery');
+const axios = require('axios');
 var Mustache = require('mustache')
 var io = require('socket.io-client');
 var openFlag = false
+ 
 require('p5')
 var socket = io(config.io);
 let userInfo = {
@@ -35,12 +37,25 @@ function refreshList(names){
 }
 // Bootstrap wants jQuery global =(
 function userJoined(payload){
-        if(payload.mainName == userInfo.name){
-        $('.joined').css('display', 'unset', 'opacity', '100').html(`Username: ${payload.mainName} has joined.`);
-        $('.loader').css('display', 'none')
-        $('.canvasChild').css('display', 'block')
-        $('.listWrapper').css('display', 'unset')
-        refreshList(payload.list);
+    if(payload.mainName == userInfo.name){
+        axios.get(`/records?room=${userInfo.room}`).then(function(response){
+            let promise = new Promise(function(resolve, reject){
+                canvasRecords = response.data
+                canvasRecords.forEach((record) =>{
+                    firstCanvas.stroke(record.color)
+                    firstCanvas.strokeWeight(10)
+                    firstCanvas.point(record.x, record.y)
+                })
+                resolve();
+            })
+            promise.then(function(result){
+                $('.loader').css('display', 'none')
+                $('.joined').css('display', 'unset', 'opacity', '100').html(`Username: ${payload.mainName} has joined.`);
+                $('.listWrapper').css('display', 'unset')    
+                $('.wrapper').css('display', 'block')
+            })
+        })
+    refreshList(payload.list);
     }else{
         $('.joined').css('opacity', 100).html(`Username: ${payload.mainName} has joined.`);
         refreshList(payload.list);
@@ -66,6 +81,10 @@ const s = (canvas) =>{
         myCanvas.parent('canvasContainer')
         canvas.background('white')
         canvas.noStroke()
+        canvas.resizeCanvas((canvas.windowWidth*8)/10, canvas.windowHeight- canvas.windowHeight/9);
+    }
+    canvas.windowResized = function() {
+        canvas.resizeCanvas((canvas.windowWidth*8)/10, canvas.windowHeight- canvas.windowHeight/9);
     }
     canvas.draw = function(){
         
@@ -101,6 +120,10 @@ const s2 = (canvas) =>{
         myCanvas.parent('canvasContainer2')
         canvas.background('white')
         canvas.noStroke()
+        canvas.resizeCanvas((canvas.windowWidth*8)/10, canvas.windowHeight- canvas.windowHeight/9);
+    }
+    canvas.windowResized = function() {
+        canvas.resizeCanvas((canvas.windowWidth*8)/10, canvas.windowHeight- canvas.windowHeight/9);
     }
     canvas.draw = function(){
     }
