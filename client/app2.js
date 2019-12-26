@@ -2,6 +2,7 @@ var p5 = require('p5');
 var $ = require('jquery');
 var Mustache = require('mustache')
 var io = require('socket.io-client');
+var openFlag = false
 require('p5')
 var socket = io(config.io);
 let userInfo = {
@@ -12,34 +13,44 @@ let userInfo = {
 
 socket.emit('join', userInfo)
 
-socket.on('joined', function(name){
-    userJoined(name)
+socket.on('leave',function(payload){
+    refreshList(payload.list)
+    $('.joined').css('opacity', 100).html(`Username: ${payload.mainName} has left.`);
+    setTimeout(function(){
+        $('.joined').animate({opacity:0})
+    }, 1000)
 })
 
-// Bootstrap wants jQuery global =(
-function userJoined(name){
-    let named = {
-        chosen:name
-    }
-    let template = '<div class="listItems"><span>{{chosen}}</span></div><br>'
-    html = Mustache.to_html(template, named)
+socket.on('joined', function(payload){
+    userJoined(payload)
+})
 
-    if(name == userInfo.name){
-        $('.joined').css('display', 'unset', 'opacity', '100').html(`Username: ${name} has joined.`);
+function refreshList(names){
+    $('.listOfUsers').html('');
+    names.forEach((name)=>{
+        let template = '<div class="listItems"><span data-id={{id}}>{{name}}</span></div><br>'
+        html = Mustache.to_html(template, name)
+        $('.listOfUsers').append(html);
+    })
+}
+// Bootstrap wants jQuery global =(
+function userJoined(payload){
+        if(payload.mainName == userInfo.name){
+        $('.joined').css('display', 'unset', 'opacity', '100').html(`Username: ${payload.mainName} has joined.`);
         $('.loader').css('display', 'none')
         $('.canvasChild').css('display', 'block')
         $('.listWrapper').css('display', 'unset')
-        $('.listOfUsers').append(html);
+        refreshList(payload.list);
     }else{
-        $('.joined').css('opacity', 100).html(`Username: ${name} has joined.`);
-        $('.listOfUsers').append(html);
+        $('.joined').css('opacity', 100).html(`Username: ${payload.mainName} has joined.`);
+        refreshList(payload.list);
     }
     setTimeout(function(){
         $('.joined').animate({opacity:0})
     }, 1000)
 }
 
-//hovering overlay
+//painting overlay
 const s = (canvas) =>{
     socket.on('paint',function(data){
         paint(data.x, data.y, false, data.color)
@@ -64,13 +75,14 @@ const s = (canvas) =>{
         let data = {
             x:canvas.mouseX,
             y:canvas.mouseY,
-            room:userInfo.room,
-            color:userInfo.color
+            color:userInfo.color,
+            room:userInfo.room
         }
         socket.emit('paint',data);
+
     }
 }
-//painting overlay
+//hovering overlay
 const s2 = (canvas) =>{
     socket.on('pressed',function(){
         canvas.background('white')
