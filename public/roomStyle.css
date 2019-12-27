@@ -7,6 +7,17 @@
         margin-top:460px
     }
 }
+.smth{
+    height:80vh;
+    display:none
+}
+.smth > div{
+    height: -webkit-fill-available;
+    border-radius: 20px;
+    background: lightcyan;
+    padding: 20px;
+}
+
 #canvasContainer, #canvasContainer2{
     /* display:none;  */
     position:absolute; 
@@ -15,10 +26,19 @@
     border:1px solid black; 
     margin-top:1em;
 }
+.loader{
+    margin: 20px auto  
+}
 #canvasContainer2{
-    opacity:0.5; 
+    opacity:0.2; 
 }
 .listItems{
-    display:inline-block;
-    justify-content:space-between
+    width: -webkit-fill-available;
+    display: inline-block;
+    justify-content: space-between;
+    padding: 10px;
+    border-radius: 20px;
+    font-size: 1.2em;
+    margin: 1px 0;
+    background:lightblue !important
 }

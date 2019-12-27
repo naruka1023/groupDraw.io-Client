@@ -10,24 +10,27 @@
   <body>
     <div style='text-align:center'>
         <div>
-            <h3>Room {{room}}</h3>
-            <div>Username:{{name}}</div>
-            <div class='joined' style=' display:none'></div>
+            <h3>Room: {{room}}</h3>
+            <div style='margin-bottom:3px'>Username:{{name}}</div>
+            <div class='joined' style='margin-bottom:3px; display:none'></div>
+            <div>
+            <a href='../'>HOME</a>
+            </div>
         </div>
-        <div class='loader' style='margin:auto'><i class="fa fa-spinner fa-spin" style="font-size:24px"></i></div>
+        <div class='loader'><i class="fa fa-spinner fa-spin" style="font-size:24px"></i></div>
         <div class="wrapper col-md-10">
           <div class = "canvasChild" id='canvasContainer'></div>
           <div class = "canvasChild" id='canvasContainer2'></div>
         </div>
-
         <div class='smth col-md-2'>
-          <div class='listWrapper' style='display:none'>
-            <h3>List of Users</h3>
-            <div class='listOfUsers'>
+          <div>
+            <div class='listWrapper'>
+              <h3>List of Users</h3>
+              <div class='listOfUsers'>
+              </div>
             </div>
           </div>
         </div>
-        
     </div>
     <script>
       config = {};

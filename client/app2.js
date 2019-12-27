@@ -44,14 +44,14 @@ function userJoined(payload){
                 canvasRecords.forEach((record) =>{
                     firstCanvas.stroke(record.color)
                     firstCanvas.strokeWeight(10)
-                    firstCanvas.point(record.x, record.y)
+                    firstCanvas.line(record.x, record.y, record.px, record.py)
                 })
                 resolve();
             })
             promise.then(function(result){
                 $('.loader').css('display', 'none')
                 $('.joined').css('display', 'unset', 'opacity', '100').html(`Username: ${payload.mainName} has joined.`);
-                $('.listWrapper').css('display', 'unset')    
+                $('.smth').css('display', 'unset')    
                 $('.wrapper').css('display', 'block')
             })
         })
@@ -64,41 +64,82 @@ function userJoined(payload){
         $('.joined').animate({opacity:0})
     }, 1000)
 }
-
 //painting overlay
 const s = (canvas) =>{
     socket.on('paint',function(data){
-        paint(data.x, data.y, false, data.color)
+        paint(data.x, data.y, data.px, data.py, false, data.color)
     })
-    function paint(x, y, flag=true, newColor=null){
+
+    socket.on('clear', function(){
+        canvas.background('white')
+    })
+
+    function paint(x, y, px, py, flag=true, newColor=null){
         (flag)?canvas.stroke(userInfo.color):canvas.stroke(newColor);
         canvas.strokeWeight(10)
     
-        canvas.point(x, y)
+        canvas.line(x, y, px, py)
     }
+
     canvas.setup = function() {
         let myCanvas = canvas.createCanvas(700, 410);
         myCanvas.parent('canvasContainer')
-        canvas.background('white')
+        canvas.background('white') || null
         canvas.noStroke()
-        canvas.resizeCanvas((canvas.windowWidth*8)/10, canvas.windowHeight- canvas.windowHeight/9);
+        function buttonHandler(flag){
+            switch(flag){
+                case 'clear': 
+                    socket.emit('clear', userInfo.room,  function(){
+                        canvas.background('white')
+                    })
+                break;
+            }
+        }
+
+        ////////////////////////////////////////
+        clearButton = canvas.createButton('CLEAR')
+        clearButton.position(10, 50)
+        clearButton.mousePressed(buttonHandler('clear'))
+
+        eraserButton = canvas.createCheckbox('ERASER')
+        eraserButton.position(110, 50)
+
+        saveButton = canvas.createButton('SAVE')
+        saveButton.position(210, 50)
+
+        shareButton = canvas.createButton('SHARE')
+        shareButton.position(310, 50)
+
+        downloadButton = canvas.createButton('DOWNLOAD')
+        downloadButton.position(410, 50)
+
+        strokeWeightSlider = canvas.createSlider(0, 255, 100);
+        strokeWeightSlider.position(70, 100);
+        strokeWeightSlider.style('width', '300px');
+
+        colorPicker = canvas.createColorPicker(userInfo.color)
+        colorPicker.position(10, 100)
+        ////////////////////////////////////////
+
+        canvas.resizeCanvas((canvas.windowWidth*8)/10, canvas.windowHeight- canvas.windowHeight/4);
     }
-    canvas.windowResized = function() {
-        canvas.resizeCanvas((canvas.windowWidth*8)/10, canvas.windowHeight- canvas.windowHeight/9);
-    }
+    // canvas.windowResized = function() {
+    //     canvas.resizeCanvas((canvas.windowWidth*8)/10, canvas.windowHeight- canvas.windowHeight/9);
+    // }
     canvas.draw = function(){
         
     }
     canvas.mouseDragged = function(){
-        paint(canvas.mouseX, canvas.mouseY)
+        paint(canvas.mouseX, canvas.mouseY, canvas.pmouseX, canvas.pmouseY)
         let data = {
             x:canvas.mouseX,
             y:canvas.mouseY,
+            px: canvas.pmouseX,
+            py: canvas.pmouseY,
             color:userInfo.color,
             room:userInfo.room
         }
         socket.emit('paint',data);
-
     }
 }
 //hovering overlay
@@ -120,11 +161,11 @@ const s2 = (canvas) =>{
         myCanvas.parent('canvasContainer2')
         canvas.background('white')
         canvas.noStroke()
-        canvas.resizeCanvas((canvas.windowWidth*8)/10, canvas.windowHeight- canvas.windowHeight/9);
+        canvas.resizeCanvas((canvas.windowWidth*8)/10, canvas.windowHeight- canvas.windowHeight/4);
     }
-    canvas.windowResized = function() {
-        canvas.resizeCanvas((canvas.windowWidth*8)/10, canvas.windowHeight- canvas.windowHeight/9);
-    }
+    // canvas.windowResized = function() {
+    //     canvas.resizeCanvas((canvas.windowWidth*8)/10, canvas.windowHeight- canvas.windowHeight/9);
+    // }
     canvas.draw = function(){
     }
     canvas.mouseMoved = function(){
