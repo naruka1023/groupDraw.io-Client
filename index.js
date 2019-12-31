@@ -25,7 +25,7 @@ app.use(function(req, res, next){
   next();
 });
 
-var url = process.env.WEPLAY_IO_URL || 'http://localhost:3001';
+var url = process.env.BACK_PORT || 'http://localhost:3001';
 app.get('/', function(req, res, next){
     if ('development' == process.env.NODE_ENV) {
       app.use('/main.js', browserify('./client/app.js'));
