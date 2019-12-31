@@ -14,7 +14,16 @@
             <div style='margin-bottom:3px'>Username:{{name}}</div>
             <div class='joined' style='margin-bottom:3px; display:none'></div>
             <div>
-            <a href='../'>HOME</a>
+              <a href='../'>HOME</a>
+            </div>
+              <div class='buttonPanel' style='display:flex; justify-contents:space-around'>
+                <button id='clearBtn' class='btn btn-primary'>Clear</button>
+                <button id='downloadBtn' class='btn btn-primary'>Download</button>
+                <p style='margin:0 10px'>Stroke Radius</p>
+                <input id='sRBtn' style='width:20%' type="range" min="1" max="20" value="10">
+                <label class="radio-inline">
+                  <input id='eraserBtn' style='margin:0 10px' type="checkbox" name="optradio">Eraser
+                </label>
             </div>
         </div>
         <div class='loader'><i class="fa fa-spinner fa-spin" style="font-size:24px"></i></div>
@@ -31,6 +40,27 @@
             </div>
           </div>
         </div>
+        {{! ////////////////////////////////////////
+clearButton = firstCanvas.createButton('CLEAR')
+clearButton.position(10, 50)
+// clearButton.mousePressed(new buttonHandler('clear'))
+
+eraserButton = firstCanvas.createCheckbox('ERASER')
+eraserButton.position(110, 50)
+
+saveButton = firstCanvas.createButton('SAVE')
+saveButton.position(210, 50)
+
+shareButton = firstCanvas.createButton('SHARE')
+shareButton.position(310, 50)
+
+downloadButton = firstCanvas.createButton('DOWNLOAD')
+downloadButton.position(410, 50)
+
+strokeWeightSlider = firstCanvas.createSlider(0, 255, 100);
+strokeWeightSlider.position(70, 100);
+strokeWeightSlider.style('width', '300px'); }}
+
     </div>
     <script>
       config = {};

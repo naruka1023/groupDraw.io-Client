@@ -2,9 +2,10 @@ var browserify = require('browserify-middleware');
 var mustache = require('mustache-express');
 var express = require('express');
 
+
 var app = express();
 
-var port = process.env.WEPLAY_PORT || 3000;
+var port = process.env.CLIENT_PORT || 3000;
 
 var redis = require('./redis')();
 
@@ -46,6 +47,18 @@ app.get('/records', function(req, res, next){
     }))
   })
 })
+app.get('/rooms', function(req, res, next){
+  redis.scan('0', 'MATCH', 'roomRecords*',function(part, full){
+    if(full[1].length == 0){
+      res.send('zero')
+    }else{
+      final = full[1].toString().split(',')
+      // console.log(final)
+      res.send(final)
+    }
+    
+  })
+})
 app.get('/room', function(req,res,next){
     if ('development' == process.env.NODE_ENV) {
         app.use('/room.js', browserify('./client/app2.js'));
@@ -56,4 +69,4 @@ app.get('/room', function(req,res,next){
         name: req.query.name,
         color:getRandomColor()
     })
-});
+})

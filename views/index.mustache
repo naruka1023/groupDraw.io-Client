@@ -1,24 +1,45 @@
 <!doctype html>
 <html>
   <head>
-    {{! <link rel="stylesheet" href="/fonts.css" type="text/css" media="screen" charset="utf-8" />
-    <link rel="stylesheet" href="/app.css" type="text/css" media="screen" charset="utf-8" />
-    <link rel="shortcut icon" href="/favicon.png" type="image/x-icon"> }}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="roomStyle.css">
   </head>
   <body>
-    <div>
-      <h3>Create New Room</h3>
-      <span style='font-size:1em; color:red' id='result'></span>
-      <form style='margin-top:20px' id='form' name="myForm">
-            Name: <input type="text" name="name">
-            Room Name: <input type="text" name="rname">
-        <input type="submit" value="Submit">
-      </form>
+    <div class='appTitle'>
+
+      <img src='groupDraw.svg' width='500' height='150'>
+      <div class='titleButton' id='createBtn'>
+        <h3>Create or Search for New Room</h3>
+      </div>
+      <div id='createInput'>
+        <span style='font-size:1em; color:red' id='result'></span>
+        <form style='margin-top:20px; text-align:left' id='form' name="myForm">
+              <label>Name:</label> <input type="text" name="name">
+              <label style='margin-left:10px'>Room Name:</label> <input type="text" name="rname">
+          <input type="submit" value="Submit">
+        </form>
+      </div>
+      <div class='titleButton' id='findBtn'>
+        <h3>Currently Open Rooms</h3>
+      </div>      
+    </div>
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content" style='text-align:center; width: fit-content'>
+        <span class="close">&times;</span>
+        <div style='margin:auto'>
+          <h3>Rooms</h3>
+          <div class='allRooms'></div>
+        </div>
+      </div>
     </div>
     <script>
       config = {};
       config.io = "{{{io}}}";
     </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>    
     <script src="/main.js"></script>
   </body>
 </html>
