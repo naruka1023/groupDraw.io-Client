@@ -5,14 +5,16 @@ var express = require('express');
 
 var app = express();
 
-var port = process.env.CLIENT_PORT || 3000;
+var port = process.env.PORT || 3000;
 
 var redis = require('./redis')();
 
 process.title = 'groupDraw-web';
 
-app.listen(port);
-console.log('listening on *:' + port);
+app.listen(port, function(){
+  console.log('listening on *:' + process.env.PORT);
+
+});
 
 app.engine('mustache', mustache());
 app.set('views', __dirname + '/views');
