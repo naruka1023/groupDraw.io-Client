@@ -1,6 +1,9 @@
 var redis = require('redis');
-url = process.env.REDISCLOUD_URL
+url = require('url')
+var redisURL = url.parse(process.env.REDISCLOUD_URL);
+
 module.exports = function(){
-  client = redis.createClient(url, { return_buffers: true });
+  var client = redis.createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
+  console.log('workeds')
   return client
 };
